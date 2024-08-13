@@ -1,0 +1,31 @@
+package repositories
+
+import (
+	"{{ cookiecutter.project_slug }}/configs"
+	"{{ cookiecutter.project_slug }}/internal/models"
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+)
+
+type I{{ model }}Repository interface {
+	IRepository[models.{{ model }}, uuid.UUID]
+}
+
+type {{ model_camelcase }}Repository struct {
+	repository[models.{{ model }}, uuid.UUID]
+}
+
+func New{{ model }}Repository(db *gorm.DB) *{{ model_camelcase }}Repository {
+	if db == nil {
+		db = configs.GetDB()
+	}
+	return &{{ model_camelcase }}Repository{
+		repository[models.{{ model }}, uuid.UUID]{
+			db: db,
+		},
+	}
+}
+
+func (r *{{ model_camelcase }}Repository) Get() {
+
+}

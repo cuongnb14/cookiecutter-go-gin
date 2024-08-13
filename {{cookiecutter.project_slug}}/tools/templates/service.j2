@@ -1,0 +1,21 @@
+package services
+
+import (
+	"{{ cookiecutter.project_slug }}/internal/models"
+	"{{ cookiecutter.project_slug }}/internal/repositories"
+	"gorm.io/gorm"
+)
+
+type {{ model }}Service struct {
+	{{ model_camelcase }}Repository repositories.I{{ model }}Repository
+}
+
+func New{{ model }}Service(db *gorm.DB) *{{ model }}Service {
+	return &{{ model }}Service{
+		{{ model_camelcase }}Repository: repositories.New{{ model }}Repository(db),
+	}
+}
+
+func (s *{{ model }}Service) Get{{ model }}s() ([]models.{{ model }}, error) {
+	return s.{{ model_camelcase }}Repository.GetAll()
+}

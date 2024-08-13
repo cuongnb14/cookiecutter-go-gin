@@ -1,0 +1,10 @@
+{
+    "project_name": "Project Name",
+    "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '')|replace('-', '') }}",
+    "description": "A short description of the project.",
+    "version": "0.1.0",
+    "_copy_without_render": [
+        "*.hcl"
+    ]
+
+}

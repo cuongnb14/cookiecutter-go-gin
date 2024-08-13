@@ -57,11 +57,14 @@ def fake_data(table_name, num_records):
     for _ in range(num_records):
         values = [generate_fake_value(*c) for c in columns]
         placeholders = ', '.join(['%s'] * len(values))
-        column_names = ', '.join([column for column, _, __ in columns])
 
-        print(values)
+        column_names_list = [column for column, _, __ in columns]
+        column_names_str = ', '.join(column_names_list)
+
+        print(" | ".join([f"{c}:{v}" for c, v in zip(column_names_list, values)]))
+        print("-"*120)
         cursor.execute(
-            f"INSERT INTO {table_name} ({column_names}) VALUES ({placeholders})",
+            f"INSERT INTO {table_name} ({column_names_str}) VALUES ({placeholders})",
             values
         )
 

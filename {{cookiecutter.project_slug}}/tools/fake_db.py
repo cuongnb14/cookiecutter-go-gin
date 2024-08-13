@@ -1,11 +1,11 @@
 """
 pip install psycopg2-binary faker
 
-python fake_db <table_name> <num_records>
+python fake_db --verbose --bulk <table_name> <num_records>
 """
 
-from sys import argv
-
+import argparse
+import psycopg2.extras
 import psycopg2
 from faker import Faker
 
@@ -45,7 +45,7 @@ def generate_fake_value(column_name, data_type, character_maximum_length):
         return fake.word()
 
 
-def fake_data(table_name, num_records):
+def fake_data(table_name, num_records, use_bulk=False, enable_debug=False):
     cursor = conn.cursor()
     cursor.execute(f"""
         SELECT column_name, data_type, character_maximum_length
@@ -54,6 +54,7 @@ def fake_data(table_name, num_records):
     """)
     columns = cursor.fetchall()
 
+    bulk_values = []
     for _ in range(num_records):
         values = [generate_fake_value(*c) for c in columns]
         placeholders = ', '.join(['%s'] * len(values))
@@ -61,12 +62,26 @@ def fake_data(table_name, num_records):
         column_names_list = [column for column, _, __ in columns]
         column_names_str = ', '.join(column_names_list)
 
-        print(" | ".join([f"{c}:{v}" for c, v in zip(column_names_list, values)]))
-        print("-"*120)
-        cursor.execute(
-            f"INSERT INTO {table_name} ({column_names_str}) VALUES ({placeholders})",
-            values
-        )
+        if enable_debug:
+            print(" | ".join([f"{c}:{v}" for c, v in zip(column_names_list, values)]))
+            print("-"*120)
+
+        if use_bulk:
+            bulk_values.append(tuple(values))
+            if len(bulk_values) >= 1000:
+                insert_query = f"INSERT INTO {table_name} ({column_names_str}) VALUES %s"
+                psycopg2.extras.execute_values(cursor, insert_query, bulk_values)
+                bulk_values = []
+                conn.commit()
+        else:
+            cursor.execute(
+                f"INSERT INTO {table_name} ({column_names_str}) VALUES ({placeholders})",
+                values
+            )
+
+    if len(bulk_values) > 0:
+        insert_query = f"INSERT INTO {table_name} ({column_names_str}) VALUES %s"
+        psycopg2.extras.execute_values(cursor, insert_query, bulk_values)
 
     conn.commit()
     cursor.close()
@@ -75,7 +90,12 @@ def fake_data(table_name, num_records):
 
 
 if __name__ == '__main__':
-    table = argv[1]
-    rows = int(argv[2])
+    parser = argparse.ArgumentParser(description='Fake database.')
+    parser.add_argument('table', type=str, help='Table name to fake')
+    parser.add_argument('num', type=int, help='Num rows to fake')
+    parser.add_argument('-v', '--verbose', action=argparse.BooleanOptionalAction, default=False, help='Enable debug')
+    parser.add_argument('-b', '--bulk', action=argparse.BooleanOptionalAction, default=False, help='Bulk insert')
 
-    fake_data(table, rows)
+    # Parse the arguments
+    args = parser.parse_args()
+    fake_data(args.table, args.num, args.bulk, args.verbose)

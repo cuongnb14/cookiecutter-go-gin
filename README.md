@@ -15,7 +15,7 @@ cookiecutter https://github.com/cuongnb14/cookiecutter-go-gin.git
 - Gorm - ORM
 - Atlas - databse migration
 - Zap + Sentry - Logging
-- Viper - config env
+- Viper - load config from env
 - JWT auth
 - Utils command (use invoke python): generate model, repository, service files, format env ...
 - And more ...

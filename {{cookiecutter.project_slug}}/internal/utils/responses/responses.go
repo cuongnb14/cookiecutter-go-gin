@@ -39,6 +39,16 @@ func OkWithPagination(c *gin.Context, page *pagination.Page) {
 }
 
 func AbortWithAPIError(ctx *gin.Context, err *APIError) {
-	ctx.Error(err).SetType(gin.ErrorTypePublic)
+	_ = ctx.Error(err).SetType(gin.ErrorTypePublic)
+	ctx.Abort()
+}
+
+func AbortWithError(ctx *gin.Context, err error) {
+	_ = ctx.Error(err).SetType(gin.ErrorTypePublic)
+	ctx.Abort()
+}
+
+func AbortWithBindError(ctx *gin.Context, err error) {
+	_ = ctx.Error(err).SetType(gin.ErrorTypeBind)
 	ctx.Abort()
 }

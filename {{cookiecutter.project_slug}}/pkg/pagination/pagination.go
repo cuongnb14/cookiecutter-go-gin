@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"gorm.io/gorm"
-	"{{ cookiecutter.project_slug }}/internal/utils"
 )
 
 func NewStandardPagination() *Pagination {
@@ -74,9 +73,4 @@ func (p *Pagination) Response(results interface{}) *Page {
 		Items: results,
 		Total: total,
 	}
-}
-
-func TranslateItems[F any, T any](page *Page) {
-	newType, _ := page.Items.(*[]F)
-	page.Items = utils.TranslateList[F, T](newType)
 }

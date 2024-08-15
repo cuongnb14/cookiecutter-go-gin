@@ -47,6 +47,10 @@ func init() {
 		stage = "testing"
 	}
 
+	if stage == "" {
+		stage = "dev"
+	}
+
 	envFile := rootDir + "/env/" + stage + ".env"
 
 	log.Printf("Use env file: %s", envFile)

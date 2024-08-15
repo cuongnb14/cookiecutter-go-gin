@@ -3,8 +3,6 @@ package server
 import (
 	"net/http"
 
-	"{{ cookiecutter.project_slug }}/internal/controllers"
-
 	_ "{{ cookiecutter.project_slug }}/docs"
 
 	gin "github.com/gin-gonic/gin"
@@ -14,8 +12,8 @@ import (
 
 func InitRouteV1(r *gin.Engine) {
 
-	api := r.Group("/api/wallet/v1")
-	api.POST("/login", controllers.PlayerLoginHandler)
+	// api := r.Group("/api/wallet/v1")
+	// api.POST("/login", controllers.PlayerLoginHandler)
 
 	// 	api.POST("/users/:id", middlewares.AuthMiddleware(), s.DeleteUser)
 

@@ -1,10 +1,13 @@
 package middlewares
 
 import (
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	"{{ cookiecutter.project_slug }}/configs"
-	"{{ cookiecutter.project_slug }}/internal/utils/responses"
-	jwt_utils "{{ cookiecutter.project_slug }}/pkg/jwt"
+	"{{ cookiecutter.project_slug }}/internal/core/validation"
+	"{{ cookiecutter.project_slug }}/internal/helpers/auth"
+	"{{ cookiecutter.project_slug }}/internal/helpers/responses"
 )
 
 func JwtAuth() gin.HandlerFunc {
@@ -12,7 +15,7 @@ func JwtAuth() gin.HandlerFunc {
 		authorizationHeader := ctx.GetHeader("Authorization")
 
 		if authorizationHeader == "" {
-			responses.AbortWithAPIError(ctx, responses.ErrAccessTokenInvalid)
+			responses.AbortWithAPIError(ctx, validation.ErrAccessTokenInvalid)
 			return
 		}
 
@@ -21,10 +24,12 @@ func JwtAuth() gin.HandlerFunc {
 
 		claims, err := auth.VerifyJwtToken(configs.Env.JwtSecret, tokenString)
 		if err != nil {
-			responses.AbortWithAPIError(ctx, responses.ErrAccessTokenInvalid)
+			responses.AbortWithAPIError(ctx, validation.ErrAccessTokenInvalid)
 			return
 		}
+
 		ctx.Set("userID", claims.UserID.String())
+
 		ctx.Next()
 	}
 }

@@ -1,7 +1,8 @@
-package utils
+package pkg
 
 import (
-	"{{ cookiecutter.project_slug }}/configs"
+	"cgcryptoft/configs"
+	"log/slog"
 
 	"github.com/jinzhu/copier"
 )
@@ -17,13 +18,15 @@ func Translate[T any](from any) *T {
 }
 
 func TranslateList[F any, T any](from *[]F) *[]T {
-	logger := configs.GetLogger()
+	if from == nil {
+		return nil
+	}
 	tList := make([]T, 0, len(*from))
 	for _, elem := range *from {
 		var t T
 		err := copier.Copy(&t, elem)
 		if err != nil {
-			logger.Error(err)
+			slog.Error(err.Error())
 		}
 		tList = append(tList, t)
 	}

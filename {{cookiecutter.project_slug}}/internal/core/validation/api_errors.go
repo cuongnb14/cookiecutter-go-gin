@@ -1,4 +1,4 @@
-package responses
+package validation
 
 import "net/http"
 
@@ -26,5 +26,11 @@ var (
 		Status:    http.StatusUnauthorized,
 		ErrorCode: "ErrApikeyInvalid",
 		Message:   "Api key invalid",
+	}
+
+	ErrAccessTokenInvalid = &APIError{
+		Status:    http.StatusUnauthorized,
+		ErrorCode: "ErrAccessTokenInvalid",
+		Message:   "Access token invalid",
 	}
 )

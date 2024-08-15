@@ -2,8 +2,8 @@ package services
 
 import (
 	"{{ cookiecutter.project_slug }}/configs"
-	"{{ cookiecutter.project_slug }}/internal/models"
-	"{{ cookiecutter.project_slug }}/internal/repositories"
+	"{{ cookiecutter.project_slug }}/internal/core/models"
+	"{{ cookiecutter.project_slug }}/internal/core/repositories"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"

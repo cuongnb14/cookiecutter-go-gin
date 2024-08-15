@@ -1,0 +1,14 @@
+db:
+  host: devhost
+  port: 5432
+  user: dev
+  pass: dev
+  name: dev
+
+fake:
+  fields:
+    - name: pair
+      kind: choice
+      values:
+        - BTC/USDT
+        - ETH/USDT

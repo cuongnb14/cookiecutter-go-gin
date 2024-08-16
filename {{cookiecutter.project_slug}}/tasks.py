@@ -97,7 +97,7 @@ def gen_repository(c, model):
     }
     rendered_content = template.render(context)
 
-    out_file = f'internal/repositories/{to_snake_case(model)}_repository.go'
+    out_file = f'internal/core/repositories/{to_snake_case(model)}_repository.go'
     with open(out_file, 'w') as f:
         f.write(rendered_content)
 
@@ -114,7 +114,7 @@ def gen_service(c, model):
     }
     rendered_content = template.render(context)
 
-    out_file = f'internal/services/{to_snake_case(model)}_service.go'
+    out_file = f'internal/core/services/{to_snake_case(model)}_service.go'
     with open(out_file, 'w') as f:
         f.write(rendered_content)
 
@@ -131,7 +131,7 @@ def gen_model(c, model):
     }
     rendered_content = template.render(context)
 
-    out_file = f'internal/models/{to_snake_case(model)}.go'
+    out_file = f'internal/core/models/{to_snake_case(model)}.go'
     with open(out_file, 'w') as f:
         f.write(rendered_content)
 

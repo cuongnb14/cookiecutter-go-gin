@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"{{ cookiecutter.project_slug }}/configs"
+	"{{ cookiecutter.project_slug }}/internal/common/auth"
+	"{{ cookiecutter.project_slug }}/internal/common/responses"
 	"{{ cookiecutter.project_slug }}/internal/core/validation"
-	"{{ cookiecutter.project_slug }}/internal/helpers/auth"
-	"{{ cookiecutter.project_slug }}/internal/helpers/responses"
 )
 
 func JwtAuth() gin.HandlerFunc {

@@ -1,6 +1,6 @@
 # cookiecutter-go-gin
 
-Powered by Cookiecutter. Cookiecutter go gin is a framework for jumpstarting projects quickly.
+Powered by Cookiecutter. Cookiecutter go gin is a framework for jumpstarting projects quickly. It is very useful for small and medium projects, for large projects hexagon architecture can be used.
 
 ## Usage
 

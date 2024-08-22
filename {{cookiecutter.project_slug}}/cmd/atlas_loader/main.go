@@ -5,7 +5,7 @@ import (
 	"io"
 	"os"
 
-	"{{ cookiecutter.project_slug }}/internal/models"
+	"{{ cookiecutter.project_slug }}/internal/core/models"
 
 	"ariga.io/atlas-provider-gorm/gormschema"
 )

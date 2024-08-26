@@ -3,7 +3,7 @@ db:
   port: 5432
   user: dev
   pass: dev
-  name: dev
+  name: {{cookiecutter.project_slug}}
 
 fake:
   fields:

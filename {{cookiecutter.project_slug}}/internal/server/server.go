@@ -42,7 +42,7 @@ func (server *Server) Initialize() {
 
 func (server *Server) Run() {
 	logger := configs.GetLogger()
-	logger.Infof("Listening to port %s", configs.Env.Port)
+	logger.Info("Listening to port" + configs.Env.Port.String())
 	server.HttpServer = &http.Server{
 		Addr:         ":" + configs.Env.Port,
 		ReadTimeout:  30 * time.Second,

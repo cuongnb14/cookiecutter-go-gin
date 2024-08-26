@@ -1,7 +1,7 @@
 """
 pip install psycopg2-binary faker pyyaml
 
-python fake_db --verbose --bulk <table_name> <num_records>
+python fake_db.py --verbose --bulk <table_name> <num_records>
 """
 
 import argparse

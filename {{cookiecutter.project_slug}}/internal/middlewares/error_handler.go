@@ -17,10 +17,6 @@ import (
 
 var logger = configs.GetLogger()
 
-var (
-	ErrorInternalError = errors.New("whoops! something went wrong")
-)
-
 func UcFirst(str string) string {
 	for i, v := range str {
 		return string(unicode.ToUpper(v)) + str[i+1:]
@@ -103,7 +99,6 @@ func ValidationErrorToText(e validator.FieldError) string {
 	return fmt.Sprintf("%s is not valid", word)
 }
 
-// This method collects all errors and submits them to Rollbar
 func ErrorHandler() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -111,8 +106,7 @@ func ErrorHandler() gin.HandlerFunc {
 		// Only run if there are some errors to handle
 		if len(c.Errors) > 0 {
 			for _, e := range c.Errors {
-
-				logger.Errorf(e.Error())
+				var errMessage string
 				switch e.Type {
 				case gin.ErrorTypePublic:
 					var apiError *validation.APIError
@@ -120,6 +114,13 @@ func ErrorHandler() gin.HandlerFunc {
 						if !c.Writer.Written() {
 							c.JSON(apiError.Status, gin.H{"code": apiError.ErrorCode, "message": apiError.Message})
 						}
+						if apiError.ErrorCode == "ErrSessionInvalid" { // Ignore log errors
+							logger.Info(e.Error())
+						} else {
+							errMessage = e.Error()
+						}
+					} else {
+						errMessage = e.Error()
 					}
 				case gin.ErrorTypeBind:
 					// Make sure we maintain the preset response status
@@ -139,15 +140,19 @@ func ErrorHandler() gin.HandlerFunc {
 					} else {
 						c.JSON(status, gin.H{"code": "ErrBadRequest", "message": "Invalid request"})
 					}
+					errMessage = e.Error()
 
-					// default:
-					// 	logger.Errorf("Unexpected error %s", e.Err)
+				default:
+					errMessage = "unexpected error: " + e.Error()
+				}
+				if errMessage != "" {
+					logger.Error("error when call api " + c.Request.URL.Path + ": " + errMessage)
 				}
 
 			}
 			// If there was no public or bind error, display default 500 message
 			if !c.Writer.Written() {
-				c.JSON(http.StatusInternalServerError, gin.H{"code": "ErrUnexpected", "message": ErrorInternalError.Error()})
+				c.JSON(http.StatusInternalServerError, gin.H{"code": "ErrUnexpected", "message": "whoops! something went wrong"})
 			}
 		}
 	}

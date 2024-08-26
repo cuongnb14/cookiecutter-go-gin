@@ -15,10 +15,10 @@ func LoggingMiddleware(h asynq.Handler) asynq.Handler {
 		//log.Printf("start processing %q", t.Type())
 		err := h.ProcessTask(ctx, t)
 		if err != nil {
-			logger.Errorf("failed to process %q: %v", t.Type(), err)
+			logger.Error("failed to process:", "type", t.Type(), "err", err)
 			return err
 		}
-		logger.Infof("finished processing %q: elapsed= %v", t.Type(), time.Since(start))
+		logger.Info("finished processing", "type", t.Type(), "elapsed", time.Since(start))
 		return nil
 	})
 }

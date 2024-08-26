@@ -12,7 +12,10 @@ import (
 )
 
 func main() {
-	configs.Bootstrap()
+	configs.PreServerStart()
+	defer configs.PreServerShutdown()
+
+	defer sentry.Flush(2 * time.Second)
 	logger := configs.GetLogger()
 
 	configs.InitAsynqClient()
@@ -31,7 +34,7 @@ func main() {
 
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-	logger.Info("Shutting down server...")
+	logger.Info("shutting down server...")
 
 	if configs.SentryClient != nil {
 		configs.SentryClient.Flush(2 * time.Second)
@@ -42,8 +45,8 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	if err := s.HttpServer.Shutdown(ctx); err != nil {
-		logger.Errorf("Server forced to shutdown: %s", err)
+		logger.Error("server forced to shutdown:", "err", err)
 	}
 
-	logger.Info("Server exiting")
+	logger.Info("server exiting")
 }

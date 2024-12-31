@@ -14,7 +14,7 @@ cookiecutter https://github.com/cuongnb14/cookiecutter-go-gin.git
 - Asynq - distributed tasks queue
 - Gorm - ORM
 - Atlas - databse migration
-- Zap + Sentry - Logging
+- Slog + Sentry - Logging
 - Viper - load config from env
 - JWT auth
 - Utils command (use invoke python): generate model, repository, service files, format env ...

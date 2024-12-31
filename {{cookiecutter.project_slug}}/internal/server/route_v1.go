@@ -3,7 +3,7 @@ package server
 import (
 	"net/http"
 
-	_ "{{ cookiecutter.project_slug }}/docs"
+	// _ "{{ cookiecutter.project_slug }}/docs"
 
 	gin "github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

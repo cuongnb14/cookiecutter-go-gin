@@ -4,11 +4,12 @@ import (
 	"net/http"
 	"time"
 
+	"{{ cookiecutter.project_slug }}/configs"
+	"{{ cookiecutter.project_slug }}/internal/middlewares"
+
 	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"{{ cookiecutter.project_slug }}/configs"
-	"{{ cookiecutter.project_slug }}/internal/middlewares"
 )
 
 type Server struct {
@@ -42,7 +43,7 @@ func (server *Server) Initialize() {
 
 func (server *Server) Run() {
 	logger := configs.GetLogger()
-	logger.Info("Listening to port" + configs.Env.Port.String())
+	logger.Info("Listening to address: 0.0.0.0:" + configs.Env.Port)
 	server.HttpServer = &http.Server{
 		Addr:         ":" + configs.Env.Port,
 		ReadTimeout:  30 * time.Second,

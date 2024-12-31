@@ -3,6 +3,7 @@ package responses
 import (
 	"net/http"
 
+	"{{ cookiecutter.project_slug }}/internal/core/validation"
 	"{{ cookiecutter.project_slug }}/pkg/pagination"
 
 	"github.com/gin-gonic/gin"

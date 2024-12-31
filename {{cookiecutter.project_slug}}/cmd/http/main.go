@@ -7,6 +7,8 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/getsentry/sentry-go"
+
 	"{{ cookiecutter.project_slug }}/configs"
 	"{{ cookiecutter.project_slug }}/internal/server"
 )
@@ -35,10 +37,6 @@ func main() {
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 	logger.Info("shutting down server...")
-
-	if configs.SentryClient != nil {
-		configs.SentryClient.Flush(2 * time.Second)
-	}
 
 	// The context is used to inform the server it has 30 seconds to finish
 	// the request it is currently handling

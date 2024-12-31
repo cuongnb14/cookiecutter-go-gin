@@ -1,15 +1,12 @@
 package services
 
 import (
-	"{{ cookiecutter.project_slug }}/configs"
 	"{{ cookiecutter.project_slug }}/internal/core/models"
 	"{{ cookiecutter.project_slug }}/internal/core/repositories"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
-
-var logger = configs.GetLogger()
 
 type UserService struct {
 	db             *gorm.DB
@@ -23,6 +20,6 @@ func NewUserService(db *gorm.DB) *UserService {
 	}
 }
 
-func (s *UserService) Login(token string, agencyId uuid.UUID) (*models.User, string, error) {
+func (s *UserService) Login(token string, agencyId uuid.UUID) (*models.User, error) {
 	return nil, nil
 }

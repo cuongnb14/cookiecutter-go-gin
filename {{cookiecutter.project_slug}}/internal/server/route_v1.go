@@ -1,6 +1,10 @@
 package server
 
 import (
+	"{{ cookiecutter.project_slug }}/configs"
+	"{{ cookiecutter.project_slug }}/internal/controllers"
+	"{{ cookiecutter.project_slug }}/internal/core/services"
+
 	"net/http"
 
 	// _ "{{ cookiecutter.project_slug }}/docs"
@@ -11,6 +15,11 @@ import (
 )
 
 func InitRouteV1(r *gin.Engine) {
+
+	userService := services.NewUserService(configs.GetDB())
+	userController := controllers.NewUserController(*userService)
+
+	r.GET("/login", userController.SignUp)
 
 	// api := r.Group("/api/wallet/v1")
 	// api.POST("/login", controllers.PlayerLoginHandler)

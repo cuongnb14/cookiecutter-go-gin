@@ -6,7 +6,7 @@
     "_copy_without_render": [
         "*.hcl",
         "*.j2",
-        "env/template.env"
+        "env/_template.env"
     ]
 
 }

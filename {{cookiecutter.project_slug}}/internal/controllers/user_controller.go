@@ -1,15 +1,26 @@
 package controllers
 
 import (
-	"github.com/google/uuid"
-	"gorm.io/gorm"
-	"{{ cookiecutter.project_slug }}/configs"
+	"{{ cookiecutter.project_slug }}/internal/common/responses"
+	"{{ cookiecutter.project_slug }}/internal/core/services"
 	"{{ cookiecutter.project_slug }}/internal/core/vo"
 
 	"github.com/gin-gonic/gin"
 )
 
-func UserLoginHandler(ctx *gin.Context) {
+type UserController struct {
+	userService services.UserService
+}
+
+func NewUserController(
+	userService services.UserService,
+) UserController {
+	return UserController{
+		userService: userService,
+	}
+}
+
+func (u UserController) SignUp(c *gin.Context) {
 	data := vo.UserVO{}
-	responses.Ok(ctx, data)
+	responses.Ok(c, data)
 }

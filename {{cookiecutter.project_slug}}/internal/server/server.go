@@ -5,9 +5,6 @@ import (
 	"time"
 
 	"{{ cookiecutter.project_slug }}/configs"
-	"{{ cookiecutter.project_slug }}/internal/controllers"
-	"{{ cookiecutter.project_slug }}/internal/core/repositories"
-	"{{ cookiecutter.project_slug }}/internal/core/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,16 +14,10 @@ type Server struct {
 	HttpServer *http.Server
 }
 
-func (server *Server) Initialize() {
-	gin.SetMode(configs.Env.GinMode)
-
-	userRepo := repositories.NewUserRepository(configs.GetDB())
-	userService := services.NewUserService(userRepo)
-	userController := controllers.NewUserController(userService)
-
-	server.Router = NewRouter(userController)
-	// server.Router.Use(gin.Recovery(), middlewares.Logger())
-
+func NewServer(router *gin.Engine) *Server {
+	return &Server{
+		Router: router,
+	}
 }
 
 func (server *Server) Run() {

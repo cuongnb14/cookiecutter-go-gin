@@ -5,10 +5,10 @@ import (
 	"time"
 
 	"{{ cookiecutter.project_slug }}/configs"
-	"{{ cookiecutter.project_slug }}/internal/middlewares"
+	"{{ cookiecutter.project_slug }}/internal/controllers"
+	"{{ cookiecutter.project_slug }}/internal/core/repositories"
+	"{{ cookiecutter.project_slug }}/internal/core/services"
 
-	sentrygin "github.com/getsentry/sentry-go/gin"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,24 +19,12 @@ type Server struct {
 
 func (server *Server) Initialize() {
 	gin.SetMode(configs.Env.GinMode)
-	router := gin.New()
-	router.Use(gin.Recovery())
-	router.Use(sentrygin.New(sentrygin.Options{
-		Repanic: true,
-	}))
-	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
-		AllowHeaders:     []string{"*"},
-		ExposeHeaders:    []string{"*"},
-		AllowCredentials: true,
-		MaxAge:           24 * time.Hour,
-	}))
-	router.Use(middlewares.ErrorHandler())
-	router.Use(middlewares.RequestLogger())
 
-	server.Router = router
-	InitRouteV1(server.Router)
+	userRepo := repositories.NewUserRepository(configs.GetDB())
+	userService := services.NewUserService(userRepo)
+	userController := controllers.NewUserController(userService)
+
+	server.Router = NewRouter(userController)
 	// server.Router.Use(gin.Recovery(), middlewares.Logger())
 
 }

@@ -5,18 +5,15 @@ import (
 	"{{ cookiecutter.project_slug }}/internal/core/repositories"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 )
 
 type UserService struct {
-	db             *gorm.DB
 	userRepository repositories.IUserRepository
 }
 
-func NewUserService(db *gorm.DB) *UserService {
+func NewUserService(userRepo repositories.IUserRepository) *UserService {
 	return &UserService{
-		db,
-		repositories.NewUserRepository(db),
+		userRepo,
 	}
 }
 

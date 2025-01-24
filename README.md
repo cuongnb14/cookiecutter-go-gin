@@ -10,6 +10,7 @@ cookiecutter https://github.com/cuongnb14/cookiecutter-go-gin.git
 ```
 
 ## Integrate
+- Go fx dependency injection
 - Repository + Service pattern
 - Asynq - distributed tasks queue
 - Gorm - ORM

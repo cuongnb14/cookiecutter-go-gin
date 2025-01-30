@@ -3,11 +3,14 @@ package server
 import (
 	"time"
 
+	"{{ cookiecutter.project_slug }}/configs"
 	"{{ cookiecutter.project_slug }}/internal/controllers"
 	"{{ cookiecutter.project_slug }}/internal/core/distributed_tasks"
 	"{{ cookiecutter.project_slug }}/internal/middlewares"
 
 	"net/http"
+
+	"github.com/gin-contrib/pprof"
 
 	// _ "{{ cookiecutter.project_slug }}/docs"
 
@@ -56,6 +59,9 @@ func NewRouter(userController *controllers.UserController) *gin.Engine {
 
 	// AddAsynqmonRoute
 	distributed_tasks.AddAsynqmonRoute(router)
+	if configs.Env.EnablePPROF {
+		pprof.Register(router, "pprof")
+	}
 
 	return router
 }

@@ -11,9 +11,10 @@ import (
 )
 
 type EnvConfig struct {
-	Stage   string `mapstructure:"STAGE"`
-	GinMode string `mapstructure:"GIN_MODE"`
-	Port    string `mapstructure:"PORT"`
+	Stage       string `mapstructure:"STAGE"`
+	GinMode     string `mapstructure:"GIN_MODE"`
+	EnablePPROF bool   `mapstructure:"ENABLE_PPROF"`
+	Port        string `mapstructure:"PORT"`
 
 	DBHost     string `mapstructure:"DB_HOST"`
 	DBPort     string `mapstructure:"DB_PORT"`

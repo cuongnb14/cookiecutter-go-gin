@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"{{ cookiecutter.project_slug }}/internal/controllers"
+	"{{ cookiecutter.project_slug }}/internal/core/distributed_tasks"
 	"{{ cookiecutter.project_slug }}/internal/middlewares"
 
 	"net/http"
@@ -52,6 +53,9 @@ func NewRouter(userController *controllers.UserController) *gin.Engine {
 	router.GET("/healthz", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "success"})
 	})
+
+	// AddAsynqmonRoute
+	distributed_tasks.AddAsynqmonRoute(router)
 
 	return router
 }

@@ -4,9 +4,25 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/hibiken/asynq"
+	"github.com/hibiken/asynqmon"
 	"{{ cookiecutter.project_slug }}/configs"
 )
+
+func AddAsynqmonRoute(r *gin.Engine) {
+	basicAuthMidd := gin.BasicAuth(gin.Accounts{
+		configs.Env.BasicAuthUser: configs.Env.BasicAuthPass,
+	})
+
+	h := asynqmon.New(asynqmon.Options{
+		RootPath:     "/asynqmon",
+		RedisConnOpt: configs.GetAsynqRedisOpt(),
+	})
+
+	r.Any(h.RootPath()+"/*a", basicAuthMidd, gin.WrapH(h))
+}
 
 func NewTask[T any](taskType string, data T) (*asynq.Task, error) {
 	payload, err := json.Marshal(data)

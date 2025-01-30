@@ -26,7 +26,9 @@ type EnvConfig struct {
 	SentryDSN              string `mapstructure:"SENTRY_DSN"`
 	EnableLogRequestDetail bool   `mapstructure:"ENABLE_LOG_REQUEST_DETAIL"`
 
-	JwtSecret string `mapstructure:"JWT_SECRET"`
+	JwtSecret     string `mapstructure:"JWT_SECRET"`
+	BasicAuthUser string `mapstructure:"BASIC_AUTH_USER"`
+	BasicAuthPass string `mapstructure:"BASIC_AUTH_PASS"`
 
 	RedisHost      string `mapstructure:"REDIS_HOST"`
 	RedisPort      string `mapstructure:"REDIS_PORT"`

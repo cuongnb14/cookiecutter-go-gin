@@ -18,7 +18,7 @@ func PublishDebugTaskTask() error {
 func PublishSendEmailTask() error {
 	return PublishTask(
 		tasks.TypeEmailDelivery,
-		tasks.EmailDeliveryPayload{UserID: 1, TemplateID: "welcome-email"}, asynq.Retention(24*time.Hour),
-		asynq.Timeout(3*time.Second),
+		tasks.EmailDeliveryPayload{UserID: 1, TemplateID: "welcome-email"},
+		asynq.Retention(24*time.Hour), asynq.Timeout(3*time.Second),
 	)
 }

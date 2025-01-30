@@ -13,6 +13,8 @@ cookiecutter https://github.com/cuongnb14/cookiecutter-go-gin.git
 - Go fx dependency injection
 - Repository + Service pattern
 - Asynq - distributed tasks queue
+- Asynqmon - dashboard for asynq
+- pprof - for debugging
 - Gorm - ORM
 - Atlas - databse migration
 - Slog + Sentry - Logging

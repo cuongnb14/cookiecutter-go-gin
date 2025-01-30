@@ -6,11 +6,14 @@ import (
 	"os"
 
 	"{{ cookiecutter.project_slug }}/configs"
+	"{{ cookiecutter.project_slug }}/internal/core/distributed_tasks"
 
 	"github.com/urfave/cli/v2"
 )
 
 func main() {
+	configs.Bootstrap()
+	configs.InitAsynqClient()
 	app := &cli.App{
 		Commands: []*cli.Command{
 			{
@@ -22,6 +25,11 @@ func main() {
 				Name:   "fakedb",
 				Usage:  "fake db",
 				Action: fakedb,
+			},
+			{
+				Name:   "debugtask",
+				Usage:  "fake db",
+				Action: sendDebugTask,
 			},
 		},
 	}
@@ -53,7 +61,12 @@ func dropdb(cCtx *cli.Context) error {
 }
 
 func fakedb(cCtx *cli.Context) error {
-	db := configs.GetDB()
+	// db := configs.GetDB()
 	// Fake db here
+	return nil
+}
+
+func sendDebugTask(c *cli.Context) error {
+	distributed_tasks.PublishDebugTaskTask()
 	return nil
 }

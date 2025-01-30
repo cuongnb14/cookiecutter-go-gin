@@ -1,4 +1,4 @@
-package tasks
+package distributed_tasks
 
 import (
 	"context"

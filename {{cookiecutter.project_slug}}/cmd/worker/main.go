@@ -8,7 +8,8 @@ import (
 	"{{ cookiecutter.project_slug }}/configs"
 
 	"github.com/hibiken/asynq"
-	"{{ cookiecutter.project_slug }}/internal/tasks"
+	"{{ cookiecutter.project_slug }}/internal/core/distributed_tasks"
+	"{{ cookiecutter.project_slug }}/internal/core/distributed_tasks/tasks"
 )
 
 func main() {
@@ -41,10 +42,12 @@ func main() {
 		},
 	)
 
-	// mux maps a type to a handler
 	mux := asynq.NewServeMux()
-	mux.Use(tasks.LoggingMiddleware)
-	mux.HandleFunc(tasks.TypeEmailDelivery, tasks.HandleEmailDeliveryTask)
+	mux.Use(distributed_tasks.LoggingMiddleware)
+
+	// mux maps a type to a handler
+	mux.HandleFunc(tasks.TypeEmailDelivery, tasks.HandleEmailDelivery)
+	mux.HandleFunc(tasks.TypeDebugTask, tasks.HandleDebugTask)
 
 	if err := srv.Run(mux); err != nil {
 		log.Fatalf("could not run server: %v", err)

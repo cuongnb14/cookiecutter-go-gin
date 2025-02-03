@@ -7,7 +7,7 @@ import (
 	"{{ cookiecutter.project_slug }}/configs"
 	"{{ cookiecutter.project_slug }}/internal/common/auth"
 	"{{ cookiecutter.project_slug }}/internal/common/responses"
-	"{{ cookiecutter.project_slug }}/internal/core/validation"
+	"{{ cookiecutter.project_slug }}/internal/core/apierrors"
 )
 
 func JwtAuth() gin.HandlerFunc {
@@ -15,7 +15,7 @@ func JwtAuth() gin.HandlerFunc {
 		authorizationHeader := ctx.GetHeader("Authorization")
 
 		if authorizationHeader == "" {
-			responses.AbortWithAPIError(ctx, validation.ErrAccessTokenInvalid)
+			responses.AbortWithAPIError(ctx, apierrors.ErrAccessTokenInvalid)
 			return
 		}
 
@@ -24,7 +24,7 @@ func JwtAuth() gin.HandlerFunc {
 
 		claims, err := auth.VerifyJwtToken(configs.Env.JwtSecret, tokenString)
 		if err != nil {
-			responses.AbortWithAPIError(ctx, validation.ErrAccessTokenInvalid)
+			responses.AbortWithAPIError(ctx, apierrors.ErrAccessTokenInvalid)
 			return
 		}
 

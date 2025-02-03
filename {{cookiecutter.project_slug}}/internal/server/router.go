@@ -5,7 +5,7 @@ import (
 
 	"{{ cookiecutter.project_slug }}/configs"
 	"{{ cookiecutter.project_slug }}/internal/controllers"
-	"{{ cookiecutter.project_slug }}/internal/core/distributed_tasks"
+	"{{ cookiecutter.project_slug }}/internal/core/asynctasks"
 	"{{ cookiecutter.project_slug }}/internal/middlewares"
 
 	"net/http"
@@ -58,7 +58,7 @@ func NewRouter(userController *controllers.UserController) *gin.Engine {
 	})
 
 	// AddAsynqmonRoute
-	distributed_tasks.AddAsynqmonRoute(router)
+	asynctasks.AddAsynqmonRoute(router)
 	if configs.Env.EnablePPROF {
 		pprof.Register(router, "pprof")
 	}

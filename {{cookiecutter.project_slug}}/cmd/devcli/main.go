@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"{{ cookiecutter.project_slug }}/configs"
-	"{{ cookiecutter.project_slug }}/internal/core/distributed_tasks"
+	"{{ cookiecutter.project_slug }}/internal/core/asynctasks"
 
 	"github.com/urfave/cli/v2"
 )
@@ -67,6 +67,6 @@ func fakedb(cCtx *cli.Context) error {
 }
 
 func sendDebugTask(c *cli.Context) error {
-	distributed_tasks.PublishDebugTaskTask()
+	asynctasks.PublishDebugTaskTask()
 	return nil
 }

@@ -9,7 +9,7 @@ import (
 	"unicode/utf8"
 
 	"{{ cookiecutter.project_slug }}/configs"
-	"{{ cookiecutter.project_slug }}/internal/core/validation"
+	"{{ cookiecutter.project_slug }}/internal/core/apierrors"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -109,7 +109,7 @@ func ErrorHandler() gin.HandlerFunc {
 				var errMessage string
 				switch e.Type {
 				case gin.ErrorTypePublic:
-					var apiError *validation.APIError
+					var apiError *apierrors.APIError
 					if errors.As(e.Err, &apiError) {
 						if !c.Writer.Written() {
 							c.JSON(apiError.Status, gin.H{"code": apiError.ErrorCode, "message": apiError.Message})

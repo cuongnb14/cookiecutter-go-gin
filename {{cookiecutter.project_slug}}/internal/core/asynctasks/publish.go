@@ -1,10 +1,10 @@
-package distributed_tasks
+package asynctasks
 
 import (
 	"time"
 
 	"github.com/hibiken/asynq"
-	"{{ cookiecutter.project_slug }}/internal/core/distributed_tasks/tasks"
+	"{{ cookiecutter.project_slug }}/internal/core/asynctasks/tasks"
 )
 
 func PublishDebugTaskTask() error {

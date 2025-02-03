@@ -3,7 +3,7 @@ package responses
 import (
 	"net/http"
 
-	"{{ cookiecutter.project_slug }}/internal/core/validation"
+	"{{ cookiecutter.project_slug }}/internal/core/apierrors"
 	"{{ cookiecutter.project_slug }}/pkg/pagination"
 
 	"github.com/gin-gonic/gin"
@@ -39,7 +39,7 @@ func OkWithPagination(c *gin.Context, page *pagination.Page) {
 	})
 }
 
-func AbortWithAPIError(ctx *gin.Context, err *validation.APIError) {
+func AbortWithAPIError(ctx *gin.Context, err *apierrors.APIError) {
 	_ = ctx.Error(err).SetType(gin.ErrorTypePublic)
 	ctx.Abort()
 }

@@ -8,8 +8,8 @@ import (
 	"{{ cookiecutter.project_slug }}/configs"
 
 	"github.com/hibiken/asynq"
-	"{{ cookiecutter.project_slug }}/internal/core/distributed_tasks"
-	"{{ cookiecutter.project_slug }}/internal/core/distributed_tasks/tasks"
+	"{{ cookiecutter.project_slug }}/internal/core/asynctasks"
+	"{{ cookiecutter.project_slug }}/internal/core/asynctasks/tasks"
 )
 
 func main() {
@@ -43,7 +43,7 @@ func main() {
 	)
 
 	mux := asynq.NewServeMux()
-	mux.Use(distributed_tasks.LoggingMiddleware)
+	mux.Use(asynctasks.LoggingMiddleware)
 
 	// mux maps a type to a handler
 	mux.HandleFunc(tasks.TypeEmailDelivery, tasks.HandleEmailDelivery)

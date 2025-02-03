@@ -1,4 +1,4 @@
-package validation
+package apierrors
 
 import "net/http"
 

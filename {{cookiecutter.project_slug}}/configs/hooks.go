@@ -8,13 +8,13 @@ func PreServerStart() {
 	GetDB()
 }
 
-func PreServerShutdown() {
+func PreServerStop() {
 	dbSQL, _ := GetDB().DB()
 	if err := dbSQL.Close(); err != nil {
 		fmt.Println("failed to close database connection", err)
 	}
 
-	if err := rdb.Close(); err != nil {
+	if err := GetRedis().Close(); err != nil {
 		fmt.Println("failed to close redis connection:", err)
 	}
 }

@@ -13,10 +13,10 @@ import (
 )
 
 var logger *slog.Logger
-var onceGetLogger sync.Once
+var onceInitLogger sync.Once
 
-func GetLogger() *slog.Logger {
-	onceGetLogger.Do(func() {
+func InitLogger() {
+	onceInitLogger.Do(func() {
 		err := sentry.Init(sentry.ClientOptions{
 			Dsn:              Env.SentryDSN,
 			EnableTracing:    false,
@@ -35,5 +35,11 @@ func GetLogger() *slog.Logger {
 		slog.SetDefault(logger)
 
 	})
+}
+
+func GetLogger() *slog.Logger {
+	if logger == nil {
+		log.Fatal("logger not initialized")
+	}
 	return logger
 }

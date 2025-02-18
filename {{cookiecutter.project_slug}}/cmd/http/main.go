@@ -29,6 +29,9 @@ func main() {
 }
 
 func Run() {
+	configs.PreServerStart()
+	defer configs.PreServerStop()
+
 	app := fx.New(
 		fx.Provide(
 			configs.GetDB,

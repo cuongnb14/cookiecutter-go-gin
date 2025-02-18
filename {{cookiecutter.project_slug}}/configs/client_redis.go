@@ -4,16 +4,17 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
-	"github.com/redis/go-redis/v9"
 	"log"
 	"sync"
+
+	"github.com/redis/go-redis/v9"
 )
 
 var rdb *redis.Client
-var onceGetRedis sync.Once
+var onceInitRedisClient sync.Once
 
-func GetRedis() *redis.Client {
-	onceGetRedis.Do(func() {
+func InitRedisClient() {
+	onceInitRedisClient.Do(func() {
 		var tlsConfig *tls.Config
 		if Env.RedisEnableSsl {
 			tlsConfig = &tls.Config{
@@ -35,6 +36,11 @@ func GetRedis() *redis.Client {
 			log.Fatalf("failed to connect redis: %v", err)
 		}
 	})
+}
 
+func GetRedis() *redis.Client {
+	if rdb == nil {
+		log.Fatal("redis client not initialized")
+	}
 	return rdb
 }

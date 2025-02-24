@@ -37,7 +37,7 @@ func PublishTask[T any](taskType string, payload T, opts ...asynq.Option) error 
 	if err != nil {
 		return fmt.Errorf("could not create task: %w", err)
 	}
-	_, err = configs.AsynqClient.Enqueue(task, opts...)
+	_, err = configs.GetAsynqClient.Enqueue(task, opts...)
 	if err != nil {
 		return fmt.Errorf("could not enqueue task: %w", err)
 	}
